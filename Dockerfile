@@ -95,6 +95,8 @@ RUN chmod +x start.sh
 
 
 # Create non-root user under docker group
+# Ubuntu 24.04 ships with a default 'ubuntu' user at UID 1000; remove it first
+RUN if getent passwd ubuntu > /dev/null 2>&1; then userdel -r ubuntu; fi
 RUN useradd -m -s /bin/bash -u "1000" azdouser
 RUN groupadd docker && usermod -aG docker azdouser
 RUN apt-get update \
